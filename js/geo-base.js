@@ -24,7 +24,7 @@ window.GeoBase = (function () {
   }
 
   function renderBaseLayer() {
-    const src = assetUrl(mapMeta?.mapImage || "assets/china-mountains-blank.png");
+    const src = assetUrl(mapMeta?.mapImage || "assets/china-mountains-blank.jpg");
     const { w, h } = getSize();
     return `
       <rect width="${w}" height="${h}" fill="#ffffff"/>

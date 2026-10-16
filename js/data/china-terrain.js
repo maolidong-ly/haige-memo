@@ -9,7 +9,7 @@ window.GEO_MAPS["china-terrain"] = {
   mapType: "terrain",
   title: "中国地形图",
   subtitle: "点击标注查看地形类型与说明（平原·盆地·丘陵·谷地·高原·走廊）",
-  mapImage: "assets/china-mountains-blank.png",
+  mapImage: "assets/china-mountains-blank.jpg",
   mapWidth: 2400,
   mapHeight: 1696,
   points: [

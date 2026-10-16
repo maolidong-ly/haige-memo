@@ -8,7 +8,7 @@ window.GEO_MAPS["china-mountains"] = {
   id: "china-mountains",
   title: "中国山地图",
   subtitle: "点击山脉查看名称与海拔",
-  mapImage: "assets/china-mountains-blank.png",
+  mapImage: "assets/china-mountains-blank.jpg",
   mapWidth: 2400,
   mapHeight: 1696,
   mountains: [
