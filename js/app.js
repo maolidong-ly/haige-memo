@@ -49,6 +49,8 @@
   let SVG_W = 2400;
   let SVG_H = 1696;
   let currentMapId = "china-mountains";
+  /** 切换地图时递增，避免旧底图请求晚到误报错或盖掉新地图 */
+  let mapLoadSeq = 0;
   let selectedId = null;
   let wrongIds = new Set();
   let savedPositions = {};
@@ -679,12 +681,13 @@
     });
   }
 
-  function preloadImage(src, timeoutMs = 20000) {
+  function preloadImageOnce(src, timeoutMs) {
     return new Promise((resolve, reject) => {
       const img = new Image();
       const timer = setTimeout(() => {
         img.onload = null;
         img.onerror = null;
+        img.src = "";
         reject(new Error("底图加载超时"));
       }, timeoutMs);
       img.onload = () => {
@@ -695,8 +698,24 @@
         clearTimeout(timer);
         reject(new Error("底图加载失败"));
       };
+      img.decoding = "async";
       img.src = src;
     });
+  }
+
+  async function preloadImage(src, timeoutMs = 45000, retries = 2) {
+    let lastErr = new Error("底图加载失败");
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      try {
+        return await preloadImageOnce(src, timeoutMs);
+      } catch (e) {
+        lastErr = e instanceof Error ? e : lastErr;
+        if (attempt < retries) {
+          await new Promise((r) => setTimeout(r, 600 * (attempt + 1)));
+        }
+      }
+    }
+    throw lastErr;
   }
 
   function renderMap(data) {
@@ -1078,20 +1097,26 @@
     renderNav();
     updateWrongUI();
 
-    Promise.all([
-      preloadImage(window.GeoBase.assetUrl(data.mapImage)),
-      loadRepoPositions(id),
-    ])
+    const loadSeq = ++mapLoadSeq;
+    const imageUrl = window.GeoBase.assetUrl(data.mapImage);
+
+    Promise.all([preloadImage(imageUrl), loadRepoPositions(id)])
       .then(([, repo]) => {
+        if (loadSeq !== mapLoadSeq || currentMapId !== id) return;
         repoPositions = repo;
         updateLockUI();
         syncPositionsLockedClass();
         renderMap(data);
         els.mapLoading?.classList.add("hidden");
       })
-      .catch(() => {
+      .catch((err) => {
+        if (loadSeq !== mapLoadSeq || currentMapId !== id) return;
         if (els.mapLoading) {
-          setMapLoadingMessage("底图加载失败，请刷新重试");
+          const msg =
+            err?.message === "底图加载超时"
+              ? "底图加载超时，请检查网络后重试"
+              : "底图加载失败，请刷新重试";
+          setMapLoadingMessage(msg);
           els.mapLoading.classList.add("error");
         }
       });

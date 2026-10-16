@@ -11,6 +11,15 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="description" content="嗨记 · 中国山地与地形交互背记，支持手机、平板与电脑浏览器">
+  <base id="appBase" href="./">
+  <script>
+    (function () {
+      var p = location.pathname;
+      if (!p.endsWith("/")) p = p.replace(/\/[^/]*$/, "/");
+      var el = document.getElementById("appBase");
+      if (el && p) el.href = p;
+    })();
+  </script>
   <title>嗨记 · 高中地理地图背记</title>
   <link rel="stylesheet" href="css/style.css?v=2">
   <link rel="stylesheet" href="css/ui-polish.css?v=2">
@@ -266,6 +275,6 @@
   <script src="js/supabase-config.js?v=3"></script>
   <script src="js/auth.js?v=7"></script>
   <script src="js/geo-base.js"></script>
-  <script src="js/app.js?v=21"></script>
+  <script src="js/app.js?v=22"></script>
 </body>
 </html>
