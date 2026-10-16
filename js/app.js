@@ -1622,7 +1622,10 @@
       startAppMaps();
     } catch (e) {
       if (els.authError) {
-        els.authError.textContent = e?.message || "登录失败";
+        const raw = e?.message || String(e || "登录失败");
+        els.authError.textContent = /failed to fetch|typeerror/i.test(raw)
+          ? "无法连接登录服务器，请换 WiFi 或稍后再试。"
+          : raw;
         els.authError.classList.remove("hidden");
       }
     } finally {

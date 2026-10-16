@@ -75,8 +75,11 @@ window.HaigeAuth = (function () {
 
   function friendlyNetworkError(err) {
     const msg = String(err?.message || err || "");
-    if (/failed to fetch|networkerror|load failed|network request failed|超时/i.test(msg)) {
-      return "网络连不上登录服务器。请用 Safari/Chrome 打开（勿用微信），或换 WiFi/流量后重试。";
+    if (/failed to fetch|fetcherror|networkerror|load failed|network request failed|超时|typeerror/i.test(msg)) {
+      if (window.Capacitor?.isNativePlatform?.()) {
+        return "无法连接登录服务器。手机流量常被拦截，请改连 WiFi（如家里/教室）后再注册；平板或电脑能登录时，同一 WiFi 下手机再试。";
+      }
+      return "网络连不上登录服务器。请用 Safari/Chrome 打开（勿用微信），或换 WiFi 后重试。";
     }
     if (/supabase|createClient/i.test(msg)) {
       return "登录组件未加载，请刷新页面；仍失败请改用系统浏览器打开。";
@@ -97,6 +100,9 @@ window.HaigeAuth = (function () {
     }
     if (error) {
       const raw = error.message || error.details || "请求失败";
+      if (/failed to fetch|fetcherror|networkerror|load failed|network request failed/i.test(raw)) {
+        throw new Error(friendlyNetworkError(new Error(raw)));
+      }
       if (/auth_register|auth_login|schema cache|gen_salt|pgcrypto/i.test(raw)) {
         throw new Error(
           "密码功能未就绪：请在 Supabase → SQL Editor 重新执行 patch-profiles-password.sql（需启用 pgcrypto）。"
