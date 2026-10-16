@@ -1,0 +1,94 @@
+{
+  "east_greenland": {
+    "x": 4168,
+    "y": 650
+  },
+  "labrador": {
+    "x": 3951,
+    "y": 662
+  },
+  "gulf_stream": {
+    "x": 4297,
+    "y": 1339
+  },
+  "brazil": {
+    "x": 4693,
+    "y": 2440
+  },
+  "peru": {
+    "x": 4160,
+    "y": 2452
+  },
+  "california": {
+    "x": 3791,
+    "y": 1548
+  },
+  "north_equatorial": {
+    "x": 3503,
+    "y": 1824
+  },
+  "south_equatorial": {
+    "x": 3329,
+    "y": 1963
+  },
+  "alaska": {
+    "x": 3276,
+    "y": 977
+  },
+  "kuril": {
+    "x": 2721,
+    "y": 1047
+  },
+  "kuroshio": {
+    "x": 2320,
+    "y": 1444
+  },
+  "north_pacific": {
+    "x": 2959,
+    "y": 1242
+  },
+  "east_australia": {
+    "x": 2562,
+    "y": 2257
+  },
+  "west_australia": {
+    "x": 1838,
+    "y": 2316
+  },
+  "madagascar": {
+    "x": 1183,
+    "y": 2318
+  },
+  "mozambique": {
+    "x": 970,
+    "y": 2336
+  },
+  "north_indian_monsoon": {
+    "x": 1312,
+    "y": 1678
+  },
+  "agulhas": {
+    "x": 1023,
+    "y": 2604
+  },
+  "somali": {
+    "x": 1107,
+    "y": 1787
+  },
+  "benguela": {
+    "x": 572,
+    "y": 2331
+  },
+  "canary": {
+    "x": 426,
+    "y": 1214
+  },
+  "north_atlantic_drift": {
+    "x": 896,
+    "y": 703
+  },
+  "west_wind_drift": {
+    "x": 2348,
+    "y": 2849
+  }
+}

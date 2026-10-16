@@ -1,0 +1,26 @@
+{
+  "pacific_plate": {
+    "x": 3119,
+    "y": 1786
+  },
+  "indian_plate": {
+    "x": 1809,
+    "y": 2155
+  },
+  "eurasian_plate": {
+    "x": 1821,
+    "y": 956
+  },
+  "american_plate": {
+    "x": 4223,
+    "y": 1377
+  },
+  "antarctic_plate": {
+    "x": 3715,
+    "y": 2919
+  },
+  "african_plate": {
+    "x": 699,
+    "y": 1805
+  }
+}

@@ -1,0 +1,379 @@
+/**
+ * 嗨记 · 界面精修层（在 style.css 之后加载）
+ */
+:root {
+  --bg-deep: #060b14;
+  --surface-1: #0f1729;
+  --surface-2: #152238;
+  --surface-3: #1c2d4a;
+  --accent: #4d9dff;
+  --accent-2: #7c5cff;
+  --accent-glow: rgba(77, 157, 255, 0.35);
+  --stroke: rgba(255, 255, 255, 0.1);
+  --stroke-strong: rgba(255, 255, 255, 0.16);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.55);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --sheet-bg: var(--surface-1);
+}
+
+body {
+  background: var(--bg-deep);
+}
+
+/* —— 地图顶栏 —— */
+.map-chrome {
+  position: absolute;
+  top: max(12px, env(safe-area-inset-top));
+  left: max(14px, env(safe-area-inset-left));
+  z-index: 14;
+  max-width: min(420px, calc(100% - 180px));
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(15, 23, 41, 0.92), rgba(21, 34, 56, 0.88));
+  border: 1px solid var(--stroke-strong);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  pointer-events: none;
+}
+
+.map-chrome-brand {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2px;
+}
+
+.map-chrome-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* —— 加载 —— */
+.map-loading {
+  background: linear-gradient(160deg, rgba(6, 11, 20, 0.94), rgba(15, 23, 41, 0.92));
+}
+
+.map-loading-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.map-loading-spinner {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.12);
+  border-top-color: var(--accent);
+  animation: spin 0.85s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.map-loading-text {
+  font-size: 15px;
+  color: var(--text-soft);
+  letter-spacing: 0.02em;
+}
+
+/* —— 工具栏 —— */
+.toolbar-pill {
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgba(15, 23, 41, 0.94), rgba(10, 16, 28, 0.9));
+  border-color: var(--stroke-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.toolbar-btn-accent {
+  background: linear-gradient(145deg, #5aa8ff, #3d7cf0);
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+/* —— 登录 —— */
+.auth-gate {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(77, 157, 255, 0.22), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(124, 92, 255, 0.12), transparent),
+    var(--bg-deep);
+}
+
+.auth-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--stroke-strong);
+  background: linear-gradient(165deg, var(--surface-2), var(--surface-1));
+  box-shadow: var(--shadow-lg);
+  padding: 32px 26px 28px;
+}
+
+.auth-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.auth-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(145deg, #5aa8ff, #7c5cff);
+  box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+.auth-title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.auth-tagline {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.auth-subtitle {
+  margin-bottom: 22px;
+  line-height: 1.6;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 4px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.auth-tab {
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-tab.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.auth-input {
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.28);
+  height: 50px;
+}
+
+.auth-submit {
+  height: 50px;
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  background: linear-gradient(145deg, #5aa8ff, #3d7cf0);
+  box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+/* —— 侧栏 —— */
+.map-drawer {
+  width: min(320px, 88vw);
+  background: linear-gradient(180deg, var(--surface-1) 0%, #0c1220 100%);
+  border-right-color: var(--stroke);
+  box-shadow: 16px 0 48px rgba(0, 0, 0, 0.55);
+}
+
+.drawer-kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.drawer-head h2 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.map-nav {
+  padding: 4px 14px 16px;
+  gap: 6px;
+}
+
+.map-tab {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.03);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+}
+
+.map-tab:active {
+  transform: scale(0.99);
+}
+
+.map-tab.active {
+  background: linear-gradient(90deg, rgba(77, 157, 255, 0.22), rgba(77, 157, 255, 0.06));
+  border-color: rgba(77, 157, 255, 0.35);
+  box-shadow: inset 3px 0 0 var(--accent);
+  color: #fff;
+}
+
+.tab-label {
+  font-weight: 500;
+}
+
+.drawer-account {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  border-color: var(--stroke-strong);
+}
+
+.drawer-footer {
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.25));
+}
+
+/* —— 底部面板 —— */
+.mountain-sheet,
+.game-result-sheet,
+.leaderboard-sheet {
+  background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface-1) 40%);
+  border-top: 1px solid var(--stroke-strong);
+  box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.5);
+}
+
+.sheet-handle {
+  width: 48px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.2);
+  margin-top: 12px;
+}
+
+.sheet-head h3 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.sheet-meta {
+  gap: 12px;
+}
+
+.sheet-meta > div {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--stroke);
+}
+
+.sheet-meta dt {
+  text-transform: none;
+  letter-spacing: 0.04em;
+  font-size: 12px;
+}
+
+/* —— 挑战条 —— */
+.game-prompt {
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(15, 23, 41, 0.96), rgba(21, 34, 56, 0.94));
+  border-color: var(--stroke-strong);
+  box-shadow: var(--shadow-md);
+  padding: 12px 14px;
+}
+
+.game-prompt-target {
+  color: #ffd166;
+  font-weight: 700;
+}
+
+.game-prompt-meta {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* —— 排行榜 —— */
+.leaderboard-map {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.leaderboard-list li {
+  background: rgba(0, 0, 0, 0.22);
+  border-color: var(--stroke);
+  transition: transform 0.12s ease;
+}
+
+.leaderboard-list li.lb-top1 {
+  background: linear-gradient(90deg, rgba(255, 209, 102, 0.15), rgba(0, 0, 0, 0.2));
+  border-color: rgba(255, 209, 102, 0.35);
+}
+
+.leaderboard-mine {
+  background: linear-gradient(90deg, rgba(77, 157, 255, 0.14), rgba(77, 157, 255, 0.04));
+}
+
+.game-result-stats dd {
+  font-variant-numeric: tabular-nums;
+}
+
+.game-result-accent {
+  background: linear-gradient(90deg, #5aa8ff, #7c5cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+.btn-primary {
+  background: linear-gradient(145deg, #5aa8ff, #3d7cf0);
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+@media (max-width: 480px) {
+  .map-chrome {
+    max-width: calc(100% - 24px);
+    right: max(14px, env(safe-area-inset-right));
+  }
+
+  .float-toolbar {
+    top: auto;
+    bottom: max(14px, env(safe-area-inset-bottom));
+    left: max(10px, env(safe-area-inset-left));
+    right: max(10px, env(safe-area-inset-right));
+    justify-content: center;
+  }
+
+  .map-chrome {
+    top: max(10px, env(safe-area-inset-top));
+    bottom: auto;
+  }
+}

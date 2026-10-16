@@ -1,0 +1,23 @@
+{
+  "name": "嗨记 · 地理地图背记",
+  "short_name": "嗨记",
+  "description": "高中地理中国山地、地形交互背记",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a1628",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "assets/apple-touch-icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

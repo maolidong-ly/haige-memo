@@ -1,0 +1,78 @@
+{
+  "sea_of_japan": {
+    "x": 2177,
+    "y": 1196
+  },
+  "bering_sea": {
+    "x": 2647,
+    "y": 918
+  },
+  "sea_of_okhotsk": {
+    "x": 2328,
+    "y": 962
+  },
+  "south_china_sea": {
+    "x": 1935,
+    "y": 1610
+  },
+  "bay_of_bengal": {
+    "x": 1616,
+    "y": 1564
+  },
+  "arabian_sea": {
+    "x": 1351,
+    "y": 1550
+  },
+  "persian_gulf": {
+    "x": 1255,
+    "y": 1303
+  },
+  "red_sea": {
+    "x": 1134,
+    "y": 1418
+  },
+  "caspian_sea": {
+    "x": 1378,
+    "y": 1137
+  },
+  "black_sea": {
+    "x": 1223,
+    "y": 1094
+  },
+  "mediterranean": {
+    "x": 989,
+    "y": 1127
+  },
+  "baltic_sea": {
+    "x": 1229,
+    "y": 803
+  },
+  "north_sea": {
+    "x": 1049,
+    "y": 796
+  },
+  "gulf_of_mexico": {
+    "x": 3648,
+    "y": 1334
+  },
+  "caribbean_sea": {
+    "x": 3837,
+    "y": 1525
+  },
+  "bohai_sea": {
+    "x": 2033,
+    "y": 1173
+  },
+  "yellow_sea": {
+    "x": 2063,
+    "y": 1269
+  },
+  "east_china_sea": {
+    "x": 2054,
+    "y": 1376
+  },
+  "hudson_bay": {
+    "x": 3416,
+    "y": 770
+  }
+}

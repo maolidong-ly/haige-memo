@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="嗨记">
+  <meta name="theme-color" content="#060b14">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="description" content="嗨记 · 中国山地与地形交互背记，支持手机、平板与电脑浏览器">
+  <title>嗨记 · 高中地理地图背记</title>
+  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/ui-polish.css?v=2">
+</head>
+<body>
+  <div id="authGate" class="auth-gate hidden" aria-modal="true" role="dialog" aria-labelledby="authTitle">
+    <div class="auth-card">
+      <div class="auth-logo-wrap">
+        <span class="auth-logo" aria-hidden="true">嗨</span>
+        <div>
+          <h1 id="authTitle" class="auth-title">嗨记</h1>
+          <p class="auth-tagline">高中地理 · 地图刷记</p>
+        </div>
+      </div>
+      <p id="authSubtitle" class="auth-subtitle">注册昵称并设置密码；他人无法冒用你的昵称登录</p>
+      <div id="authFormBlock">
+        <div class="auth-tabs" role="tablist">
+          <button type="button" class="auth-tab active" id="authTabLogin" role="tab" aria-selected="true">登录</button>
+          <button type="button" class="auth-tab" id="authTabRegister" role="tab" aria-selected="false">注册</button>
+        </div>
+        <label class="auth-label" for="authUsername">昵称</label>
+        <input type="text" id="authUsername" class="auth-input" maxlength="24" autocomplete="username" placeholder="如：小明、zhangsan" />
+        <label class="auth-label" for="authPassword">密码</label>
+        <input type="password" id="authPassword" class="auth-input" maxlength="64" autocomplete="current-password" placeholder="至少 4 位" />
+        <div id="authPasswordConfirmWrap" class="hidden">
+          <label class="auth-label" for="authPasswordConfirm">确认密码</label>
+          <input type="password" id="authPasswordConfirm" class="auth-input" maxlength="64" autocomplete="new-password" placeholder="再输入一次密码" />
+        </div>
+        <button type="button" class="btn btn-primary auth-submit" id="authSubmit">登录并进入</button>
+        <p id="authError" class="auth-error hidden" role="alert"></p>
+      </div>
+      <p id="authConfigMissing" class="auth-config-missing hidden">线上站点尚未配置登录服务，请联系管理员在 Supabase 中完成设置。</p>
+    </div>
+  </div>
+
+  <div class="shell">
+    <main class="map-fullscreen">
+      <div id="mapStage" class="map-stage">
+        <div id="mapLoading" class="map-loading">
+          <div class="map-loading-inner">
+            <span class="map-loading-spinner" aria-hidden="true"></span>
+            <span id="mapLoadingText" class="map-loading-text">正在加载山地空白图…</span>
+          </div>
+        </div>
+
+        <div class="map-chrome" aria-live="polite">
+          <span class="map-chrome-brand">嗨记</span>
+          <span id="mapChromeTitle" class="map-chrome-title">中国山地地图</span>
+        </div>
+
+        <div id="gamePrompt" class="game-prompt hidden" aria-live="polite">
+          <div class="game-prompt-row">
+            <p class="game-prompt-task">
+              <span class="game-prompt-label">点击</span>
+              <strong id="gameTargetName" class="game-prompt-target">—</strong>
+            </p>
+            <p id="gameFeedback" class="game-feedback hidden" aria-live="assertive"></p>
+            <div class="game-prompt-meta">
+              <span id="gameProgress">—</span>
+              <span id="gameTimer">00:00</span>
+            </div>
+            <button type="button" class="btn-game-exit" id="gameExitBtn" aria-label="退出挑战" title="退出挑战">✕</button>
+          </div>
+        </div>
+
+        <div class="float-toolbar">
+          <div class="toolbar-pill toolbar-pill-actions">
+            <button type="button" class="toolbar-btn toolbar-btn-accent" id="gameChallengeBtn" title="游戏挑战" aria-label="游戏挑战">
+              <span class="toolbar-emoji" aria-hidden="true">🎯</span>
+            </button>
+            <span class="toolbar-sep" aria-hidden="true"></span>
+            <button type="button" class="toolbar-btn" id="leaderboardBtn" title="本图排行榜" aria-label="本图排行榜">
+              <span class="toolbar-emoji" aria-hidden="true">🏆</span>
+            </button>
+            <span class="toolbar-sep" aria-hidden="true"></span>
+            <button type="button" class="toolbar-btn" id="menuBtn" title="地图切换" aria-label="地图切换">
+              <span class="toolbar-menu" aria-hidden="true"><i></i><i></i><i></i></span>
+            </button>
+          </div>
+          <span id="wrongBadge" class="wrong-badge hidden" title="记错数量">0</span>
+          <span id="positionsLockBadge" class="lock-badge hidden" title="标记位置已锁死">🔒</span>
+          <div class="toolbar-pill toolbar-pill-zoom">
+            <button type="button" class="toolbar-btn toolbar-btn-icon" id="zoomIn" title="放大" aria-label="放大">＋</button>
+            <span class="toolbar-sep" aria-hidden="true"></span>
+            <button type="button" class="toolbar-btn toolbar-btn-icon" id="zoomOut" title="缩小" aria-label="缩小">－</button>
+            <span class="toolbar-sep" aria-hidden="true"></span>
+            <button type="button" class="toolbar-btn toolbar-btn-label" id="zoomReset" title="重置视图">重置</button>
+          </div>
+        </div>
+
+        <svg id="mapSvg" class="map-svg" viewBox="0 0 2400 1696" role="img" aria-label="中国山地空白图"></svg>
+      </div>
+
+      <div id="comingSoon" class="coming-soon hidden">
+        <div class="soon-icon">🚧</div>
+        <h2 class="soon-title">—</h2>
+        <p>该地图正在开发中，敬请期待</p>
+      </div>
+    </main>
+
+    <!-- 地图切换抽屉 -->
+    <aside id="mapDrawer" class="map-drawer hidden" aria-label="地图目录">
+      <div class="drawer-head">
+        <div>
+          <p class="drawer-kicker">GEO MEMO</p>
+          <h2>地图练习</h2>
+        </div>
+        <button type="button" class="drawer-close" id="drawerClose" aria-label="关闭">×</button>
+      </div>
+      <nav id="mapNav" class="map-nav"></nav>
+      <div class="drawer-footer">
+        <div id="drawerAuth" class="drawer-account hidden">
+          <div class="drawer-account-row">
+            <span id="drawerUserAvatar" class="drawer-avatar" aria-hidden="true">—</span>
+            <div class="drawer-account-text">
+              <span class="drawer-account-label">当前账号</span>
+              <strong id="drawerUsername" class="drawer-account-name">—</strong>
+            </div>
+          </div>
+          <button type="button" class="btn-drawer btn-drawer-ghost" id="authSwitchBtn">切换账号</button>
+        </div>
+        <details id="drawerAdminBlock" class="drawer-admin-fold">
+          <summary class="drawer-admin-summary">老师 · 标注调整</summary>
+          <div id="drawerToolsPublic" class="drawer-tools-public">
+            <p class="drawer-hint">标注已固定。输入管理员密码后可拖动调整（仅本标签页有效）。</p>
+            <button type="button" class="btn-drawer btn-drawer-accent" id="adminEditAuthBtn">输入密码并进入</button>
+          </div>
+        </details>
+      </div>
+      <div id="drawerToolsDev" class="drawer-tools hidden">
+        <button type="button" class="btn-drawer btn-drawer-ghost" id="adminEditExitBtn">退出位置编辑</button>
+        <button type="button" class="btn-drawer btn-drawer-accent" id="lockPositionsBtn">锁死位置</button>
+        <button type="button" class="btn-drawer btn-drawer-accent hidden" id="unlockPositionsBtn">解锁位置</button>
+        <p class="drawer-hint">调好位置 → 锁死；要改先解锁，改完再锁死（仅本机预览可用）</p>
+        <button type="button" class="btn-drawer" id="exportPositionsBtn">导出本图坐标</button>
+        <button type="button" class="btn-drawer btn-drawer-accent" id="exportAllPositionsBtn">一键导出全部地图坐标</button>
+        <button type="button" class="btn-drawer" id="importPositionsBtn">导入坐标 JSON</button>
+        <button type="button" class="btn-drawer" id="resetPositionsBtn">恢复软件初始位置</button>
+        <input type="file" id="importPositionsFile" accept="application/json,.json" class="hidden" />
+      </div>
+    </aside>
+    <div id="drawerBackdrop" class="drawer-backdrop hidden"></div>
+
+    <!-- 点击山脉后的底部菜单 -->
+    <aside id="mountainSheet" class="mountain-sheet hidden" aria-live="polite">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <div class="sheet-head">
+        <h3 id="sheetName">—</h3>
+        <button type="button" class="sheet-close" id="sheetClose" aria-label="关闭">×</button>
+      </div>
+      <dl class="sheet-meta">
+        <div id="sheetPeakRow">
+          <dt id="sheetPeakLabel">代表山峰</dt>
+          <dd id="sheetPeak">—</dd>
+        </div>
+        <div id="sheetElevationRow">
+          <dt>海拔高度</dt>
+          <dd id="sheetElevation" class="elevation">—</dd>
+        </div>
+        <div id="sheetCategoryRow" class="hidden">
+          <dt>地形类型</dt>
+          <dd id="sheetCategory" class="category-tag">—</dd>
+        </div>
+        <div>
+          <dt>地理意义</dt>
+          <dd id="sheetNote">—</dd>
+        </div>
+        <div>
+          <dt>标记坐标</dt>
+          <dd id="sheetCoords" class="coords">—</dd>
+        </div>
+      </dl>
+      <div class="sheet-actions">
+        <button type="button" class="btn btn-wrong" id="markWrongBtn">标记为记错</button>
+        <button type="button" class="btn btn-clear-wrong hidden" id="unmarkWrongBtn">取消记错</button>
+      </div>
+      <div class="sheet-wrong-list">
+        <div class="sheet-wrong-head">
+          <span>记错记录</span>
+          <button type="button" class="btn-text" id="clearAllWrongBtn">全部清除</button>
+        </div>
+        <ul id="wrongList" class="wrong-list"></ul>
+        <p id="wrongEmpty" class="wrong-empty">暂无记错，背记时可点击「标记为记错」</p>
+      </div>
+    </aside>
+    <div id="sheetBackdrop" class="sheet-backdrop hidden"></div>
+
+    <aside id="gameResultSheet" class="game-result-sheet hidden" aria-labelledby="gameResultTitle">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <div class="sheet-head">
+        <h3 id="gameResultTitle">挑战结果</h3>
+        <button type="button" class="sheet-close" id="gameResultClose" aria-label="关闭">×</button>
+      </div>
+      <div class="game-result-body">
+        <p id="gameResultMap" class="game-result-map">—</p>
+        <dl class="game-result-stats">
+          <div>
+            <dt>正确率</dt>
+            <dd id="gameResultAccuracy" class="game-result-accent">—</dd>
+          </div>
+          <div>
+            <dt>用时</dt>
+            <dd id="gameResultTime">—</dd>
+          </div>
+          <div>
+            <dt>答对</dt>
+            <dd id="gameResultCorrect">—</dd>
+          </div>
+        </dl>
+        <div class="game-result-wrong">
+          <h4>点错的题目</h4>
+          <ul id="gameResultWrongList" class="game-wrong-list"></ul>
+          <p id="gameResultPerfect" class="game-result-perfect hidden">全部正确，太棒了！</p>
+        </div>
+        <p class="game-result-hint" id="gameResultHint">成绩会同步云端；点右上角 🏆 看本图排行榜</p>
+        <div class="game-result-actions">
+          <button type="button" class="btn btn-primary" id="gamePlayAgainBtn">再玩一次</button>
+          <button type="button" class="btn btn-ghost" id="gameResultDismissBtn">关闭</button>
+        </div>
+      </div>
+    </aside>
+    <div id="gameResultBackdrop" class="sheet-backdrop hidden"></div>
+
+    <aside id="leaderboardSheet" class="leaderboard-sheet hidden" aria-labelledby="leaderboardTitle">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <div class="sheet-head">
+        <h3 id="leaderboardTitle">本图排行榜</h3>
+        <button type="button" class="sheet-close" id="leaderboardClose" aria-label="关闭">×</button>
+      </div>
+      <div class="leaderboard-body">
+        <p id="leaderboardMap" class="leaderboard-map">—</p>
+        <p id="leaderboardMine" class="leaderboard-mine hidden">—</p>
+        <p id="leaderboardStatus" class="leaderboard-status">加载中…</p>
+        <ol id="leaderboardList" class="leaderboard-list"></ol>
+      </div>
+    </aside>
+    <div id="leaderboardBackdrop" class="sheet-backdrop hidden"></div>
+  </div>
+
+  <script src="js/data/china-mountains.js"></script>
+  <script src="js/data/china-terrain.js"></script>
+  <script src="js/data/china-admin.js"></script>
+  <script src="js/data/ocean-currents.js"></script>
+  <script src="js/data/plates.js"></script>
+  <script src="js/data/world-countries.js?v=2"></script>
+  <script src="js/data/world-straits-canals.js"></script>
+  <script src="js/data/world-continents-oceans.js"></script>
+  <script src="js/data/world-islands-peninsulas.js"></script>
+  <script src="js/data/rivers.js"></script>
+  <script src="js/data/world-waters.js?v=4"></script>
+  <script src="js/data/world-terrain-regions.js?v=2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/supabase-config.js?v=3"></script>
+  <script src="js/auth.js?v=7"></script>
+  <script src="js/geo-base.js"></script>
+  <script src="js/app.js?v=21"></script>
+</body>
+</html>

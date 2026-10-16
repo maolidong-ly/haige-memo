@@ -1,0 +1,94 @@
+{
+  "ne_plain": {
+    "x": 1642,
+    "y": 455
+  },
+  "nc_plain": {
+    "x": 1496,
+    "y": 822
+  },
+  "yangtze_plain": {
+    "x": 1554,
+    "y": 1059
+  },
+  "hetao_plain": {
+    "x": 1260,
+    "y": 695
+  },
+  "ningxia_plain": {
+    "x": 1201,
+    "y": 769
+  },
+  "sanjiang_plain": {
+    "x": 1849,
+    "y": 315
+  },
+  "inner_mongolia_plateau": {
+    "x": 1372,
+    "y": 539
+  },
+  "loess_plateau": {
+    "x": 1334,
+    "y": 799
+  },
+  "tibetan_plateau": {
+    "x": 633,
+    "y": 986
+  },
+  "yunnan_guizhou_plateau": {
+    "x": 1123,
+    "y": 1284
+  },
+  "hexi_corridor": {
+    "x": 981,
+    "y": 721
+  },
+  "junggar": {
+    "x": 675,
+    "y": 429
+  },
+  "tarim": {
+    "x": 567,
+    "y": 636
+  },
+  "qaidam": {
+    "x": 862,
+    "y": 799
+  },
+  "sichuan": {
+    "x": 1066,
+    "y": 1089
+  },
+  "liaodong_hills": {
+    "x": 1665,
+    "y": 652
+  },
+  "shandong_hills": {
+    "x": 1593,
+    "y": 809
+  },
+  "jiangnan_hills": {
+    "x": 1443,
+    "y": 1171
+  },
+  "zhemin_hills": {
+    "x": 1632,
+    "y": 1175
+  },
+  "liangguang_hills": {
+    "x": 1362,
+    "y": 1385
+  },
+  "zangnan_valley": {
+    "x": 571,
+    "y": 1080
+  },
+  "wei_valley": {
+    "x": 1189,
+    "y": 924
+  },
+  "han_valley": {
+    "x": 1185,
+    "y": 981
+  }
+}

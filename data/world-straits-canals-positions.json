@@ -1,0 +1,54 @@
+{
+  "english_channel": {
+    "x": 570,
+    "y": 643
+  },
+  "strait_of_gibraltar": {
+    "x": 424,
+    "y": 819
+  },
+  "suez_canal": {
+    "x": 696,
+    "y": 936
+  },
+  "turkish_straits": {
+    "x": 720,
+    "y": 801
+  },
+  "bab_el_mandeb": {
+    "x": 695,
+    "y": 1197
+  },
+  "strait_of_hormuz": {
+    "x": 884,
+    "y": 1035
+  },
+  "bering_strait": {
+    "x": 2068,
+    "y": 583
+  },
+  "strait_of_malacca": {
+    "x": 1327,
+    "y": 1331
+  },
+  "panama_canal": {
+    "x": 3020,
+    "y": 1208
+  },
+  "mozambique_channel": {
+    "x": 713,
+    "y": 1629
+  },
+  "taiwan_strait": {
+    "x": 1455,
+    "y": 1078
+  },
+  "drake_passage": {
+    "x": 2824,
+    "y": 2178
+  },
+  "strait_of_magellan": {
+    "x": 2870,
+    "y": 2073
+  }
+}

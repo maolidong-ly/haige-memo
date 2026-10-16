@@ -1,0 +1,126 @@
+{
+  "andes": {
+    "x": 4297,
+    "y": 2279
+  },
+  "guiana_highlands": {
+    "x": 4411,
+    "y": 1798
+  },
+  "amazon_plain": {
+    "x": 4477,
+    "y": 2020
+  },
+  "brazilian_highlands": {
+    "x": 4546,
+    "y": 2184
+  },
+  "la_plata_plain": {
+    "x": 4425,
+    "y": 2448
+  },
+  "patagonia": {
+    "x": 4171,
+    "y": 2688
+  },
+  "rockies": {
+    "x": 3571,
+    "y": 1230
+  },
+  "great_plains": {
+    "x": 3808,
+    "y": 1101
+  },
+  "appalachians": {
+    "x": 4101,
+    "y": 1176
+  },
+  "labrador_plateau": {
+    "x": 1580,
+    "y": 980
+  },
+  "great_dividing_range": {
+    "x": 2443,
+    "y": 2348
+  },
+  "congo_basin": {
+    "x": 708,
+    "y": 1900
+  },
+  "east_africa_plateau": {
+    "x": 951,
+    "y": 1757
+  },
+  "arabian_plateau": {
+    "x": 1078,
+    "y": 1473
+  },
+  "iranian_plateau": {
+    "x": 1263,
+    "y": 1292
+  },
+  "turanic_plain": {
+    "x": 1375,
+    "y": 1163
+  },
+  "indus_plain": {
+    "x": 1421,
+    "y": 1379
+  },
+  "ganges_plain": {
+    "x": 1618,
+    "y": 1453
+  },
+  "deccan_plateau": {
+    "x": 1507,
+    "y": 1517
+  },
+  "western_ghats": {
+    "x": 1389,
+    "y": 1621
+  },
+  "eastern_ghats": {
+    "x": 1558,
+    "y": 1633
+  },
+  "western_europe_plain": {
+    "x": 798,
+    "y": 937
+  },
+  "north_german_polish_plain": {
+    "x": 1025,
+    "y": 925
+  },
+  "east_europe_plain": {
+    "x": 1312,
+    "y": 854
+  },
+  "west_siberian_plain": {
+    "x": 1723,
+    "y": 844
+  },
+  "central_siberian_plateau": {
+    "x": 2069,
+    "y": 794
+  },
+  "east_siberian_mountains": {
+    "x": 2444,
+    "y": 812
+  },
+  "ural_mountains": {
+    "x": 1629,
+    "y": 688
+  },
+  "greater_caucasus": {
+    "x": 1203,
+    "y": 1104
+  },
+  "himalayas": {
+    "x": 1720,
+    "y": 1397
+  },
+  "scandinavian_mountains": {
+    "x": 1111,
+    "y": 672
+  }
+}
