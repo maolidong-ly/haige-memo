@@ -59,6 +59,8 @@
   let viewBox = { x: 0, y: 0, w: SVG_W, h: SVG_H };
   let pinchState = null;
   let dragState = null;
+  /** 单指/鼠标拖拽平移地图 */
+  let panState = null;
   let gameState = null;
   let gameTimerTick = null;
 
@@ -795,7 +797,48 @@
     };
   }
 
+  function onMapPanStart(e) {
+    if (dragState || panState) return;
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    if (canEditPositionsNow() && !isPositionsLocked() && e.target.closest?.(".marker")) {
+      return;
+    }
+    panState = {
+      pointerId: e.pointerId,
+      last: { x: e.clientX, y: e.clientY },
+      moved: false,
+    };
+    try {
+      els.mapStage.setPointerCapture(e.pointerId);
+    } catch {
+      /* ignore */
+    }
+  }
+
   function onPointerMove(e) {
+    if (panState && e.pointerId === panState.pointerId) {
+      const dx = e.clientX - panState.last.x;
+      const dy = e.clientY - panState.last.y;
+      if (!panState.moved) {
+        if (Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+        panState.moved = true;
+      }
+      e.preventDefault();
+      const rect = els.mapSvg.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        const scaleX = viewBox.w / rect.width;
+        const scaleY = viewBox.h / rect.height;
+        setViewBox({
+          x: viewBox.x - dx * scaleX,
+          y: viewBox.y - dy * scaleY,
+          w: viewBox.w,
+          h: viewBox.h,
+        });
+      }
+      panState.last = { x: e.clientX, y: e.clientY };
+      return;
+    }
+
     if (!dragState || e.pointerId !== dragState.pointerId) return;
 
     const dx = e.clientX - dragState.startClient.x;
@@ -812,6 +855,17 @@
   }
 
   function onPointerUp(e) {
+    if (panState && e.pointerId === panState.pointerId) {
+      if (panState.moved) suppressMapClick();
+      try {
+        els.mapStage.releasePointerCapture(e.pointerId);
+      } catch {
+        /* ignore */
+      }
+      panState = null;
+      return;
+    }
+
     if (!dragState || e.pointerId !== dragState.pointerId) return;
     e.stopPropagation();
 
@@ -1123,6 +1177,8 @@
   }
 
   function setupZoom() {
+    els.mapStage.addEventListener("pointerdown", onMapPanStart);
+
     els.zoomIn.addEventListener("click", () => zoomAt(0.75, viewBox.x + viewBox.w / 2, viewBox.y + viewBox.h / 2));
     els.zoomOut.addEventListener("click", () => zoomAt(1.35, viewBox.x + viewBox.w / 2, viewBox.y + viewBox.h / 2));
     els.zoomReset.addEventListener("click", resetView);
@@ -1138,6 +1194,7 @@
     }, { passive: false });
 
     els.mapStage.addEventListener("touchstart", (e) => {
+      if (e.touches.length === 2) panState = null;
       if (dragState || e.touches.length !== 2) return;
       const [a, b] = e.touches;
       pinchState = {

@@ -51,6 +51,11 @@ body {
   height: 100%;
   touch-action: none;
   background: #fff;
+  cursor: grab;
+}
+
+.map-stage:active {
+  cursor: grabbing;
 }
 
 .map-svg {
