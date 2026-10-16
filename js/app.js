@@ -1729,6 +1729,15 @@
     const auth = window.HaigeAuth;
     if (auth) {
       auth.primeFromStorage?.();
+      if (auth.isConfigured() && !window.supabase?.createClient) {
+        showAuthGate("login");
+        if (els.authError) {
+          els.authError.textContent =
+            "登录组件未加载。请刷新；若在微信中打开，请改用 Safari/Chrome。";
+          els.authError.classList.remove("hidden");
+        }
+        return;
+      }
       if (!auth.isConfigured() && !auth.isLocalHost()) {
         showAuthGate("missing-config");
         return;

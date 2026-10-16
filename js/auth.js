@@ -73,11 +73,28 @@ window.HaigeAuth = (function () {
     return { id: row.id, username: row.username };
   }
 
+  function friendlyNetworkError(err) {
+    const msg = String(err?.message || err || "");
+    if (/failed to fetch|networkerror|load failed|network request failed|超时/i.test(msg)) {
+      return "网络连不上登录服务器。请用 Safari/Chrome 打开（勿用微信），或换 WiFi/流量后重试。";
+    }
+    if (/supabase|createClient/i.test(msg)) {
+      return "登录组件未加载，请刷新页面；仍失败请改用系统浏览器打开。";
+    }
+    return msg || "登录失败";
+  }
+
   async function rpcAuth(fn, username, password) {
-    const { data, error } = await client.rpc(fn, {
-      p_username: username,
-      p_password: password,
-    });
+    let data;
+    let error;
+    try {
+      ({ data, error } = await client.rpc(fn, {
+        p_username: username,
+        p_password: password,
+      }));
+    } catch (e) {
+      throw new Error(friendlyNetworkError(e));
+    }
     if (error) {
       const raw = error.message || error.details || "请求失败";
       if (/auth_register|auth_login|schema cache|gen_salt|pgcrypto/i.test(raw)) {
